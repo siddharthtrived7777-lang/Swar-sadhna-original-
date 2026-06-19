@@ -9,7 +9,6 @@ import Hero from './components/Hero';
 import AboutAndWhy from './components/AboutAndWhy';
 import GurusSection from './components/GurusSection';
 import CourseExplorer from './components/CourseExplorer';
-import RecommendationQuiz from './components/RecommendationQuiz';
 import InquiryForm from './components/InquiryForm';
 import FAQ from './components/FAQ';
 import LocationSection from './components/LocationSection';
@@ -61,23 +60,6 @@ export default function App() {
 
         {/* The active interactive syllabus registry */}
         <CourseExplorer onEnquire={handleEnquireCourse} />
-
-        {/* Lightweight interactive path-finding recommendations */}
-        <section className="py-24 px-6 md:px-12 bg-brand-bg border-t border-brand-border">
-          <div className="max-w-2xl mx-auto space-y-8">
-            <div className="text-center space-y-3">
-              <span className="text-[10px] font-mono tracking-widest text-brand-primary bg-brand-accent/50 px-2.5 py-1.5 rounded-full font-bold border border-brand-border inline-block uppercase">
-                Diagnostic Matching Engine
-              </span>
-              <h3 className="text-2xl font-serif text-brand-dark font-bold">Find Your Musical Style</h3>
-              <p className="text-xs text-brand-dark/70 font-sans">
-                Take our 10-second quiz to instantly identify which custom lesson maps match your aspirations.
-              </p>
-            </div>
-
-            <RecommendationQuiz onMatchCourse={handleEnquireCourse} />
-          </div>
-        </section>
 
         {/* Expandable detailed collateral FAQ Accordion */}
         <FAQ />
