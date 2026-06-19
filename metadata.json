@@ -1,0 +1,6 @@
+{
+  "name": "Swar Sadhna",
+  "description": "Premium landing page and student coordination portal for Swar Sadhna Musical Classes, teaching vocal music, classical, harmonium, and keyboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
