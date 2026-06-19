@@ -50,7 +50,7 @@ export default function LocationSection() {
                     <MapPin className="w-4.5 h-4.5" />
                   </div>
                   <div>
-                    <h4 className="font-serif text-lg font-bold text-brand-dark">Surendranagar HQ</h4>
+                    <h4 className="font-serif text-lg font-bold text-brand-dark">Centre Surendranagar</h4>
                     <p className="text-xs text-brand-dark/80 font-sans mt-1 leading-relaxed font-semibold">
                       Swar Sadhna Musical Classes,<br />
                       Opp. Town Hall Area, Main Bazaar Rd,<br />
