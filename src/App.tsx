@@ -52,7 +52,7 @@ export default function App() {
         />
 
         {/* Master Educators and Gurus presentation */}
-        <GurusSection />
+        <GurusSection onEnquire={handleEnquireCourse} />
 
         {/* The active interactive syllabus registry */}
         <CourseExplorer onEnquire={handleEnquireCourse} />
