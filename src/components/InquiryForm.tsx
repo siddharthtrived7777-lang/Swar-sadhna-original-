@@ -6,17 +6,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  Phone, 
-  Mail, 
   MapPin, 
-  MessageSquare, 
   CheckCircle2, 
   Trash2, 
   Eye, 
   AlertCircle,
   Clock,
   Send,
-  ExternalLink
+  ExternalLink,
+  Instagram,
+  Compass
 } from 'lucide-react';
 import { Inquiry } from '../types';
 
@@ -26,11 +25,6 @@ interface InquiryFormProps {
 }
 
 export default function InquiryForm({ preselectedCourse, setPreselectedCourse }: InquiryFormProps) {
-  // Contacts
-  const currentEmail = 'swarsadhnamusic@gmail.com';
-  const phone1 = '9558183973';
-  const phone2 = '8200049918';
-  
   // States
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
@@ -103,18 +97,7 @@ export default function InquiryForm({ preselectedCourse, setPreselectedCourse }:
     setSuccess(false);
   };
 
-  // Generate Direct WhatsApp redirect link filled with customer criteria
-  const getWhatsAppLink = (isSupport = false) => {
-    const num = phone1; // Use Primary Support phone
-    let msg = '';
-    
-    if (isSupport) {
-      msg = `Hi Swar Sadhna, I have general questions regarding admission schedules, fee breakdown, and online timers. Please guide me.`;
-    } else {
-      msg = `Hi Swar Sadhna! My name is ${fullName || '[Name]'}. I am interested in joining your "${preselectedCourse}" classes in "${mode === 'any' ? 'Online/Offline' : mode}" mode. Contact: ${phone}. Raw details: ${additionalInfo || 'None'}. Please schedule trial lesson.`;
-    }
-    return `https://wa.me/91${num}?text=${encodeURIComponent(msg)}`;
-  };
+
 
   return (
     <section id="contact" className="bg-brand-bg border-t border-brand-border relative overflow-hidden font-sans">
@@ -124,12 +107,11 @@ export default function InquiryForm({ preselectedCourse, setPreselectedCourse }:
         <div className="flex overflow-hidden w-full">
           <div className="animate-marquee-ltr flex shrink-0 whitespace-nowrap items-center gap-12 text-[13px] md:text-[14px] font-bold tracking-wider uppercase font-sans">
             {Array(4).fill([
-              "Batch Timings: Monday to Thursday",
-              "Class Hours: 5:00 PM to 7:00 PM",
-              "Duration: 2 Hours Per Session",
-              "Online & Offline Both Available",
-              "Admissions Open for 2026 Batch",
-              "Call us: +91 9558183973"
+              "Admissions Open 2026 Batch",
+              "Batch Timings: Mon to Thu",
+              "Class Hours: 5:00 PM - 7:00 PM",
+              "Online & Offline Available",
+              "Fill Form to Enquire Now"
             ]).flat().map((item, idx) => (
               <span key={`ticker-1-${idx}`} className="flex items-center gap-4">
                 <span className="text-white/80 font-semibold">♪</span>
@@ -139,12 +121,11 @@ export default function InquiryForm({ preselectedCourse, setPreselectedCourse }:
           </div>
           <div className="animate-marquee-ltr flex shrink-0 whitespace-nowrap items-center gap-12 text-[13px] md:text-[14px] font-bold tracking-wider uppercase font-sans" aria-hidden="true">
             {Array(4).fill([
-              "Batch Timings: Monday to Thursday",
-              "Class Hours: 5:00 PM to 7:00 PM",
-              "Duration: 2 Hours Per Session",
-              "Online & Offline Both Available",
-              "Admissions Open for 2026 Batch",
-              "Call us: +91 9558183973"
+              "Admissions Open 2026 Batch",
+              "Batch Timings: Mon to Thu",
+              "Class Hours: 5:00 PM - 7:00 PM",
+              "Online & Offline Available",
+              "Fill Form to Enquire Now"
             ]).flat().map((item, idx) => (
               <span key={`ticker-2-${idx}`} className="flex items-center gap-4">
                 <span className="text-white/80 font-semibold">♪</span>
@@ -166,48 +147,15 @@ export default function InquiryForm({ preselectedCourse, setPreselectedCourse }:
             <div className="space-y-6">
               <div>
                 <span className="text-[10px] font-mono tracking-widest text-brand-primary font-bold uppercase block mb-1">STATIONED REGISTERED OFFICE</span>
-                <h4 className="font-serif text-2xl font-bold text-brand-dark">Contact Us Directly</h4>
+                <h4 className="font-serif text-2xl font-bold text-brand-dark">Address Details</h4>
                 <p className="text-xs text-brand-dark/70 mt-1 font-sans">
-                  Whether you are seeking custom pricing coordinates or exploring school criteria, feel free to call our administrators or send details.
+                  We conduct high-integrity classical vocal and instrument lessons. To secure admissions or schedule auditions, submit your details using our intake form.
                 </p>
               </div>
 
               {/* Vertical icon metrics */}
               <div className="space-y-5">
                 
-                {/* Phones */}
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-brand-accent/40 border border-brand-border flex items-center justify-center text-brand-primary flex-shrink-0 mt-1">
-                    <Phone className="w-4.5 h-4.5" />
-                  </div>
-                  <div>
-                    <p className="text-[9px] uppercase font-mono tracking-wider text-brand-primary font-bold">Phone / WhatsApp</p>
-                    <div className="space-y-1 mt-1 font-sans">
-                      <a href={`tel:${phone1}`} className="block text-sm font-bold text-brand-dark hover:text-brand-primary">
-                        +91 {phone1} <span className="text-xs font-normal text-brand-dark/60 font-medium">(Primary Admission)</span>
-                      </a>
-                      <a href={`tel:${phone2}`} className="block text-sm font-bold text-brand-dark hover:text-brand-primary">
-                        +91 {phone2} <span className="text-xs font-normal text-brand-dark/60 font-medium">(Admission Support)</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div className="flex items-start gap-4" id="contact-email">
-                  <div className="w-10 h-10 rounded-full bg-brand-accent/40 border border-brand-border flex items-center justify-center text-brand-primary flex-shrink-0 mt-1">
-                    <Mail className="w-4.5 h-4.5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <p className="text-[9px] uppercase font-mono tracking-wider text-brand-primary font-bold">Official E-mail</p>
-                    </div>
-                    <a href={`mailto:${currentEmail}`} className="block text-sm font-semibold text-brand-dark hover:text-brand-primary truncate mt-1 font-sans">
-                      {currentEmail}
-                    </a>
-                  </div>
-                </div>
-
                 {/* Address */}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full bg-brand-accent/40 border border-brand-border flex items-center justify-center text-brand-primary flex-shrink-0 mt-1">
@@ -215,30 +163,48 @@ export default function InquiryForm({ preselectedCourse, setPreselectedCourse }:
                   </div>
                   <div>
                     <p className="text-[9px] uppercase font-mono tracking-wider text-brand-primary font-bold">Studio Address</p>
-                    <p className="text-sm font-medium text-brand-dark mt-1 leading-relaxed font-sans">
+                    <p className="text-sm font-semibold text-brand-dark mt-1 leading-relaxed font-sans">
                       Swar Sadhna Musical Classes,<br />
                       Surendranagar, Gujarat, India
                     </p>
                   </div>
                 </div>
 
+                {/* Instagram */}
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-brand-accent/40 border border-brand-border flex items-center justify-center text-brand-primary flex-shrink-0 mt-1">
+                    <Instagram className="w-4.5 h-4.5" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] uppercase font-mono tracking-wider text-brand-primary font-bold">Instagram Page</p>
+                    <a 
+                      href="https://www.instagram.com/the_swarsadhana/" 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      className="block text-sm font-bold text-brand-dark hover:text-brand-primary mt-1 font-sans"
+                    >
+                      @the_swarsadhana
+                    </a>
+                  </div>
+                </div>
+
               </div>
             </div>
 
-            {/* Quick action button for direct WhatsApp chat */}
+            {/* Quick action button for directions */}
             <div className="pt-5 border-t border-brand-border">
               <span className="text-xs text-brand-dark/70 block mb-3 leading-relaxed font-sans">
-                Rather skip the form? Connect directly with a teacher instantly:
+                Find our physical campus on satellite maps easily:
               </span>
               <a 
-                href={getWhatsAppLink(true)} 
+                href="https://share.google/WTXmp12gg267ufnkI" 
                 target="_blank" 
-                rel="noreferrer referrer" 
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full text-[10px] uppercase tracking-widest font-bold font-sans shadow-xs transition-colors"
-                id="quick-whatsapp-cta"
+                rel="noreferrer" 
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-primary hover:bg-brand-dark text-white rounded-full text-[10px] uppercase tracking-widest font-bold font-sans shadow-xs transition-colors"
+                id="quick-maps-cta"
               >
-                <MessageSquare className="w-3.5 h-3.5" />
-                <span>Chat Instantly on WhatsApp</span>
+                <Compass className="w-3.5 h-3.5" />
+                <span>Navigate on Google Maps</span>
               </a>
             </div>
 
@@ -257,9 +223,11 @@ export default function InquiryForm({ preselectedCourse, setPreselectedCourse }:
                   onSubmit={handleSubmit}
                   className="space-y-4"
                 >
-                  <div>
-                    <h4 className="font-serif text-xl font-bold text-brand-dark">Enroll or Send an Enquiry</h4>
-                    <p className="text-xs text-brand-dark/70 mt-0.5">We will evaluate your coordinates and get back to you within 24 hours.</p>
+                  <div className="bg-brand-accent/40 border border-brand-border p-5 rounded-2xl mb-2">
+                    <h4 className="font-serif text-2xl font-bold text-brand-primary">Enroll or Send an Enquiry</h4>
+                    <p className="text-xs md:text-sm text-brand-dark/95 font-sans mt-1.5 font-bold">
+                      Fill the form below and we will contact you within 24 hours
+                    </p>
                   </div>
 
                   {errorText && (
@@ -393,23 +361,14 @@ export default function InquiryForm({ preselectedCourse, setPreselectedCourse }:
                     </p>
                   </div>
 
-                  {/* WhatsApp Pre-fill option */}
-                  <div className="bg-[#FAF5EE] border border-brand-border rounded-3xl p-5 max-w-md mx-auto">
-                    <p className="text-xs text-brand-dark font-bold mb-1 flex items-center justify-center gap-1.5">
-                      ✨ Want to double your callbacks?
+                  {/* confirmation callback details */}
+                  <div className="bg-[#FAF5EE] border border-brand-border rounded-2xl p-5 max-w-md mx-auto">
+                    <p className="text-xs text-brand-primary font-bold mb-1">
+                      ✨ Callback Registered
                     </p>
-                    <p className="text-[11px] text-brand-dark/70 mb-4 font-sans leading-relaxed">
-                      Send your pre-filled inquiry directly to Swar Sadhna Admissions via WhatsApp in 1 click!
+                    <p className="text-[11px] text-brand-dark/70 font-sans leading-relaxed">
+                      Our school administration has logged your coordinates. A secure administrator will contact you back privately within 24 hours.
                     </p>
-                    <a 
-                      href={getWhatsAppLink()}
-                      target="_blank"
-                      rel="noreferrer referrer"
-                      className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full text-[10px] uppercase tracking-widest font-bold font-sans shadow-xs transition-colors"
-                    >
-                      <span>Forward Pre-filled WhatsApp</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
                   </div>
 
                   <div className="pt-2">

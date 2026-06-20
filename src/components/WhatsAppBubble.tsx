@@ -17,7 +17,7 @@ export default function WhatsAppBubble() {
     return () => clearTimeout(timer);
   }, []);
 
-  const whatsappUrl = "https://wa.me/919558183973?text=Hello!%20I%20am%20interested%20in%20joining%20Swar%20Sadhna%20Musical%20Classes.%20Please%20share%20more%20details.";
+  const whatsappUrl = "https://wa.me/";
 
   return (
     <div className="fixed bottom-[30px] right-[25px] z-[9999] flex flex-col items-center">

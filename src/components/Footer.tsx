@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useState } from 'react';
 import { Music, Heart, ArrowUp, Instagram } from 'lucide-react';
 
 interface FooterProps {
@@ -12,8 +13,7 @@ interface FooterProps {
 
 export default function Footer({ onNavigate, onOpenAdmin }: FooterProps) {
   const activeEmail = 'swarsadhnamusic@gmail.com';
-  const phone1 = '9558183973';
-  const phone2 = '8200049918';
+  const [showEmail, setShowEmail] = useState(false);
 
   return (
     <footer className="bg-brand-dark text-[#FAF5EE]/70 border-t border-brand-border py-16 px-6 md:px-12 font-sans">
@@ -46,33 +46,45 @@ export default function Footer({ onNavigate, onOpenAdmin }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 text-xs py-4 text-[#FAF5EE]/50">
           
           {/* Taglines list */}
-          <div className="md:col-span-6 space-y-4">
+          <div className="md:col-span-5 space-y-4">
             <h5 className="font-mono text-white font-bold uppercase tracking-wider text-[10px]">Academic Focus Areas</h5>
-            <p className="leading-relaxed font-sans max-w-md">
+            <p className="leading-relaxed font-sans">
               Swar Sadhna Musical Classes is a premier institution offering high-integrity instruction spanning vocal training, classical music, harmonium keys, modern electronic keyboards, devotional bhajans, and online classes worldwide.
             </p>
           </div>
 
-          {/* Quick links & numbers */}
+          {/* Studio Address */}
           <div className="md:col-span-3 space-y-2">
-            <h5 className="font-mono text-white font-bold uppercase tracking-wider text-[10px]">Direct Call Desk</h5>
-            <div className="space-y-1.5 text-[11px] font-mono">
-              <p>📞 <a href={`tel:${phone1}`} className="hover:text-brand-accent font-bold transition-colors">{phone1}</a></p>
-              <p>📞 <a href={`tel:${phone2}`} className="hover:text-[#F5F5F0] transition-colors">{phone2}</a></p>
-            </div>
+            <h5 className="font-mono text-white font-bold uppercase tracking-wider text-[10px]">Studio Address</h5>
+            <p className="font-semibold text-[11px] font-sans leading-relaxed text-[#FAF5EE]/75">
+              Swar Sadhna Musical Classes,<br />
+              Surendranagar, Gujarat, India
+            </p>
           </div>
 
-          {/* Active Email address & Instagram */}
-          <div className="md:col-span-3 space-y-2">
+          {/* Digital Channels */}
+          <div className="md:col-span-4 space-y-2">
             <h5 className="font-mono text-white font-bold uppercase tracking-wider text-[10px]">Digital Channels</h5>
-            <div className="space-y-2">
-              <p className="truncate font-semibold text-[11px] font-sans flex items-center gap-2">
+            <div className="space-y-2.5">
+              <div className="font-semibold text-[11px] font-sans flex items-center gap-2">
                 <span>📧</span>
-                <a href={`mailto:${activeEmail}`} className="hover:text-brand-accent hover:underline transition-colors">{activeEmail}</a>
-              </p>
+                {showEmail ? (
+                  <a href={`mailto:${activeEmail}`} className="hover:text-brand-accent hover:underline transition-colors text-white font-sans">
+                    {activeEmail}
+                  </a>
+                ) : (
+                  <button 
+                    type="button" 
+                    onClick={() => setShowEmail(true)} 
+                    className="hover:text-brand-accent hover:underline text-[#FAF5EE]/70 font-semibold cursor-pointer text-[11px] font-sans text-left"
+                  >
+                    Click to view email
+                  </button>
+                )}
+              </div>
               <p className="font-semibold text-[11px] font-sans flex items-center gap-2">
                 <Instagram className="w-4 h-4 text-brand-primary" />
-                <a href="https://www.instagram.com/the_swarsadhana/" target="_blank" rel="noreferrer" className="hover:text-brand-accent hover:underline transition-color text-white">@the_swarsadhana</a>
+                <a href="https://www.instagram.com/the_swarsadhana/" target="_blank" rel="noreferrer" className="hover:text-brand-accent hover:underline transition-color text-[#FAF5EE]/80">@the_swarsadhana</a>
               </p>
             </div>
           </div>

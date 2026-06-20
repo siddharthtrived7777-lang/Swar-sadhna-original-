@@ -11,10 +11,7 @@ import {
   ExternalLink, 
   Clock, 
   Compass, 
-  Navigation,
-  Sparkles,
-  Phone,
-  Mail
+  Navigation
 } from 'lucide-react';
 
 export default function LocationSection() {
@@ -84,20 +81,7 @@ export default function LocationSection() {
                 </div>
               </div>
 
-              {/* Contact methods for coordination */}
-              <div className="space-y-2 border-t border-brand-border/60 pt-6">
-                <span className="text-[10px] uppercase font-mono tracking-wider font-bold text-brand-primary">Direct Assistance Desk</span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mt-1">
-                  <a href="tel:9558183973" className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-brand-border hover:border-brand-primary transition-colors font-semibold text-brand-dark">
-                    <Phone className="w-3.5 h-3.5 text-brand-primary" />
-                    <span>9558183973</span>
-                  </a>
-                  <a href="tel:8200049918" className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-brand-border hover:border-brand-primary transition-colors font-semibold text-brand-dark">
-                    <Phone className="w-3.5 h-3.5 text-brand-primary" />
-                    <span>8200049918</span>
-                  </a>
-                </div>
-              </div>
+
             </div>
 
             {/* Direct Directions Button */}

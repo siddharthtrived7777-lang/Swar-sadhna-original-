@@ -13,9 +13,8 @@ import {
   Music, 
   ArrowRight, 
   CheckCircle,
-  TrendingUp,
-  Award,
-  BookOpen
+  BookOpen,
+  X
 } from 'lucide-react';
 import { Course } from '../types';
 
@@ -112,16 +111,17 @@ const COURSES: Course[] = [
 
 export default function CourseExplorer({ onEnquire }: CourseExplorerProps) {
   const [activeTab, setActiveTab] = useState<'all' | 'vocal' | 'instrument' | 'general'>('all');
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   // Map icon strings to Lucide elements
-  const getIcon = (iconName: string) => {
+  const getIcon = (iconName: string, className = "w-4.5 h-4.5 text-brand-primary") => {
     switch (iconName) {
-      case 'Mic2': return <Mic2 className="w-4.5 h-4.5 text-brand-primary" />;
-      case 'Library': return <Library className="w-4.5 h-4.5 text-brand-primary" />;
-      case 'Piano': return <Piano className="w-4.5 h-4.5 text-brand-primary" />;
-      case 'Wifi': return <Wifi className="w-4.5 h-4.5 text-brand-primary" />;
-      case 'BookOpen': return <BookOpen className="w-4.5 h-4.5 text-brand-primary" />;
-      default: return <Music className="w-4.5 h-4.5 text-brand-primary" />;
+      case 'Mic2': return <Mic2 className={className} />;
+      case 'Library': return <Library className={className} />;
+      case 'Piano': return <Piano className={className} />;
+      case 'Wifi': return <Wifi className={className} />;
+      case 'BookOpen': return <BookOpen className={className} />;
+      default: return <Music className={className} />;
     }
   };
 
@@ -129,12 +129,17 @@ export default function CourseExplorer({ onEnquire }: CourseExplorerProps) {
     ? COURSES 
     : COURSES.filter(c => c.category === activeTab);
 
+  const handleEnquiryFromPopup = (courseTitle: string) => {
+    setSelectedCourse(null);
+    onEnquire(courseTitle);
+  };
+
   return (
-    <section id="courses" className="py-24 px-6 md:px-12 bg-white border-t border-brand-border">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <section id="courses" className="py-20 px-4 md:px-12 bg-white border-t border-brand-border">
+      <div className="max-w-7xl mx-auto space-y-10">
         
         {/* Header Block */}
-        <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 pb-6 border-b border-brand-border">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-brand-border">
           <div className="space-y-2">
             <span className="text-[10px] font-mono tracking-widest text-brand-primary bg-brand-accent/50 px-3 py-1.5 rounded-full font-bold uppercase border border-brand-border inline-block">
               Rigorous Curriculum
@@ -147,14 +152,14 @@ export default function CourseExplorer({ onEnquire }: CourseExplorerProps) {
             </p>
           </div>
 
-          {/* Filtering buttons */}
-          <div className="flex flex-wrap gap-1 bg-brand-accent/30 p-1.5 rounded-full border border-brand-border text-[10px]">
+          {/* Filtering buttons - horizontally scrollable list on mobile */}
+          <div className="flex overflow-x-auto whitespace-nowrap scrollbar-none gap-1 bg-brand-accent/30 p-1.5 rounded-full border border-brand-border text-[10px] max-w-full">
             {(['all', 'vocal', 'instrument', 'general'] as const).map((tab) => (
               <button
                 key={tab}
                 type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 font-bold uppercase tracking-wider rounded-full transition-all ${
+                className={`px-4 py-2 font-bold uppercase tracking-wider rounded-full transition-all flex-shrink-0 ${
                   activeTab === tab
                     ? 'bg-brand-primary text-white shadow-xs'
                     : 'text-brand-dark/80 hover:bg-brand-accent/70'
@@ -166,8 +171,14 @@ export default function CourseExplorer({ onEnquire }: CourseExplorerProps) {
           </div>
         </div>
 
-        {/* Dynamic Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Mobile Swipe Hint Indicator */}
+        <div className="flex md:hidden items-center justify-between text-brand-primary font-mono text-[9px] font-bold tracking-wider uppercase px-2 py-1 bg-brand-accent/20 rounded-lg animate-pulse">
+          <span>Swipe left / right to explore syllabus</span>
+          <span className="flex items-center gap-1">Swipe →</span>
+        </div>
+
+        {/* Dynamic Cards Grid - Switch to flex horizontal swipe lists on mobile */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none pb-6 gap-5 px-1 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:overflow-visible max-w-full">
           <AnimatePresence mode="popLayout">
             {filteredCourses.map((course, i) => (
               <motion.div
@@ -176,38 +187,38 @@ export default function CourseExplorer({ onEnquire }: CourseExplorerProps) {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="bg-brand-light border border-brand-border rounded-3xl p-8 hover:border-brand-primary hover:shadow-xs transition-all flex flex-col justify-between relative group"
+                transition={{ duration: 0.35, delay: i * 0.04 }}
+                onClick={() => setSelectedCourse(course)}
+                className="bg-brand-light border border-brand-border rounded-2xl p-5 hover:border-brand-primary hover:shadow-md transition-all flex flex-col justify-between relative group snap-start w-[80vw] flex-shrink-0 md:w-auto h-[285px] max-h-[285px] min-h-[285px] cursor-pointer"
               >
                 {/* Traditional Decorative Motif on corner */}
-                <div className="absolute top-0 right-0 w-16 h-16 bg-brand-bg/50 border-b border-l border-brand-border rounded-tr-3xl rounded-bl-3xl flex items-center justify-center pointer-events-none">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-brand-bg/40 border-b border-l border-brand-border rounded-tr-2xl rounded-bl-2xl flex items-center justify-center pointer-events-none">
                   <div className="w-1.5 h-1.5 rounded-full bg-brand-primary/20 group-hover:bg-brand-primary transition-colors" />
                 </div>
 
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {/* Icon Badge */}
-                  <div className="w-10 h-10 rounded-full bg-brand-accent/40 border border-brand-border flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-full bg-brand-accent/40 border border-brand-border flex items-center justify-center flex-shrink-0">
                     {getIcon(course.icon)}
                   </div>
 
                   {/* Title & Description */}
                   <div className="space-y-1.5">
-                    <h4 className="font-serif text-lg font-bold text-brand-dark group-hover:text-brand-primary transition-colors">
+                    <h4 className="font-serif text-base font-bold text-brand-dark group-hover:text-brand-primary transition-colors line-clamp-1">
                       {course.title}
                     </h4>
-                    <p className="text-xs text-brand-dark/75 leading-relaxed font-sans min-h-[50px]">
+                    <p className="text-xs text-brand-dark/75 leading-relaxed font-sans line-clamp-1">
                       {course.shortDesc}
                     </p>
                   </div>
 
-                  {/* Syllabus / Features Checklist */}
-                  <div className="pt-4 border-t border-brand-border space-y-3">
-                    <p className="text-[9px] font-mono tracking-widest text-brand-primary font-bold uppercase">Syllabus Highlights</p>
-                    <div className="space-y-2">
-                      {course.features.map((feature, fIndex) => (
-                        <div key={fIndex} className="flex items-start gap-2 text-[11px] text-brand-dark/95 font-sans">
+                  {/* Syllabus / Features Checklist (2 items max) */}
+                  <div className="pt-3 border-t border-brand-border space-y-2">
+                    <div className="space-y-1.5">
+                      {course.features.slice(0, 2).map((feature, fIndex) => (
+                        <div key={fIndex} className="flex items-start gap-2 text-[11px] text-brand-dark/90 font-sans">
                           <CheckCircle className="w-3.5 h-3.5 text-brand-primary flex-shrink-0 mt-0.5" />
-                          <span>{feature}</span>
+                          <span className="line-clamp-1">{feature}</span>
                         </div>
                       ))}
                     </div>
@@ -215,17 +226,20 @@ export default function CourseExplorer({ onEnquire }: CourseExplorerProps) {
                 </div>
 
                 {/* Card footer actions */}
-                <div className="pt-6 mt-6 flex items-center justify-between border-t border-brand-border">
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-brand-primary font-bold flex items-center gap-1">
-                    <Award className="w-3.5 h-3.5" /> Beginner to Advanced
+                <div className="pt-3 border-t border-brand-border mt-auto flex items-center justify-between">
+                  <span className="text-[9px] font-mono tracking-widest text-brand-primary/70 font-semibold uppercase">
+                    More Details
                   </span>
                   
                   <button
                     type="button"
-                    onClick={() => onEnquire(course.title)}
-                    className="text-xs font-bold uppercase tracking-wider text-brand-dark hover:text-brand-primary font-sans flex items-center gap-1 group/btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedCourse(course);
+                    }}
+                    className="text-xs font-bold uppercase tracking-wider text-brand-dark group-hover:text-brand-primary font-sans flex items-center gap-1 group/btn cursor-pointer"
                   >
-                    <span>Enquire</span>
+                    <span>View Details</span>
                     <ArrowRight className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-all" />
                   </button>
                 </div>
@@ -234,27 +248,115 @@ export default function CourseExplorer({ onEnquire }: CourseExplorerProps) {
           </AnimatePresence>
         </div>
 
-        {/* Dynamic callout banner */}
-        <div className="bg-[#FAF5EE] border border-brand-border rounded-3xl p-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left shadow-xs">
-          <div className="flex items-center gap-4 flex-col md:flex-row">
-            <div className="p-3 bg-brand-primary text-white rounded-full flex-shrink-0">
-              <TrendingUp className="w-4.5 h-4.5" />
-            </div>
-            <div>
-              <h4 className="font-serif text-brand-dark font-bold text-sm">Not sure which class aligns with your current level?</h4>
-              <p className="text-xs text-brand-dark/70 font-sans mt-0.5">We offer a free diagnostic consultation callback to check your pitch accuracy and suggest the right course.</p>
-            </div>
-          </div>
+        {/* Footnote call to action line */}
+        <div className="text-center pt-4 border-t border-brand-border/40">
           <button
             type="button"
             onClick={() => onEnquire('Free Music Consultation & Level Check')}
-            className="px-6 py-3 bg-brand-primary hover:bg-brand-dark text-white rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap"
+            className="text-xs md:text-sm font-semibold text-brand-dark hover:text-brand-primary font-sans inline-flex items-center gap-1.5 transition-colors cursor-pointer group pb-2"
           >
-            Claim Diagnostic Session
+            <span>Can't decide? Take our free diagnostic session</span>
+            <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-all text-brand-primary" />
           </button>
         </div>
 
       </div>
+
+      {/* Beautiful course detail Modal popup on Click */}
+      <AnimatePresence>
+        {selectedCourse && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Smooth dark overlay background with subtle backdrop blur */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedCourse(null)}
+              className="absolute inset-0 bg-brand-dark/65 backdrop-blur-xs cursor-pointer"
+            />
+
+            {/* Modal Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+              className="relative bg-brand-light border border-brand-border rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl overflow-hidden z-10 flex flex-col gap-5"
+            >
+              {/* Close Button X */}
+              <button
+                type="button"
+                onClick={() => setSelectedCourse(null)}
+                className="absolute top-4 right-4 p-1.5 text-brand-dark/60 hover:text-brand-primary hover:bg-brand-accent/40 rounded-full transition-colors cursor-pointer focus:outline-none"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Header: Icon & Name */}
+              <div className="flex items-center gap-3.5 pr-6">
+                <div className="w-11 h-11 rounded-full bg-brand-accent/50 border border-brand-border flex items-center justify-center text-brand-primary flex-shrink-0">
+                  {getIcon(selectedCourse.icon, "w-5 h-5 text-brand-primary")}
+                </div>
+                <div>
+                  <h4 className="font-serif text-lg md:text-xl font-bold text-brand-dark leading-tight">
+                    {selectedCourse.title}
+                  </h4>
+                  <span className="text-[9px] font-mono tracking-widest text-brand-primary font-bold uppercase mt-1 inline-block">
+                    {selectedCourse.category === 'vocal' ? 'Vocal Artistry' : selectedCourse.category === 'instrument' ? 'Instrumental Craft' : 'Devotional & General'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Course Details Content */}
+              <div className="space-y-4 text-xs md:text-sm text-brand-dark/95 font-sans">
+                {/* Full deep description */}
+                <p className="text-brand-dark/80 leading-relaxed text-xs">
+                  {selectedCourse.fullDesc}
+                </p>
+
+                {/* Level / Duration Quick Badges Grid */}
+                <div className="grid grid-cols-2 gap-3 bg-brand-bg/50 rounded-xl p-3 border border-brand-border/60">
+                  <div>
+                    <span className="block text-[8px] font-mono tracking-widest text-brand-primary uppercase font-bold mb-0.5">Duration</span>
+                    <span className="text-xs font-bold text-brand-dark">3 to 6 Months</span>
+                  </div>
+                  <div>
+                    <span className="block text-[8px] font-mono tracking-widest text-brand-primary uppercase font-bold mb-0.5">Lesson Tier</span>
+                    <span className="text-xs font-bold text-brand-dark">Beginner to Advanced</span>
+                  </div>
+                </div>
+
+                {/* All syllabus highlights list */}
+                <div className="space-y-2 pt-2">
+                  <h5 className="text-[9px] font-mono tracking-widest text-brand-primary font-bold uppercase">Comprehensive Syllabus</h5>
+                  <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
+                    {selectedCourse.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-2 text-xs">
+                        <CheckCircle className="w-4 h-4 text-brand-primary flex-shrink-0 mt-0.5" />
+                        <span className="font-medium text-brand-dark/90 text-[11px] leading-snug">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Enquiry submission bottom trigger */}
+              <div className="pt-2 border-t border-brand-border/40">
+                <button
+                  type="button"
+                  onClick={() => handleEnquiryFromPopup(selectedCourse.title)}
+                  className="w-full py-3 bg-brand-primary hover:bg-brand-dark text-white rounded-full text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                >
+                  <span>Enquire Now</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
