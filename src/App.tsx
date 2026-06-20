@@ -6,7 +6,6 @@
 import { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import AboutAndWhy from './components/AboutAndWhy';
 import GurusSection from './components/GurusSection';
 import CourseExplorer from './components/CourseExplorer';
 import InquiryForm from './components/InquiryForm';
@@ -51,9 +50,6 @@ export default function App() {
           onExploreCourses={() => handleScrollToSection('courses')}
           onEnquireNow={() => handleEnquireCourse('General Inquiry')}
         />
-
-        {/* Core Values, Team Pedagogies & Bento breakdown */}
-        <AboutAndWhy />
 
         {/* Master Educators and Gurus presentation */}
         <GurusSection />

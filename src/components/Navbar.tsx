@@ -33,13 +33,6 @@ export default function Navbar({ onNavigate }: NavbarProps) {
         <div className="flex items-center justify-center flex-wrap gap-2">
           <button 
             type="button"
-            onClick={() => onNavigate('about')}
-            className="px-3 py-1.5 text-xs text-brand-dark/80 hover:text-brand-primary hover:border-b hover:border-brand-primary font-semibold tracking-wider uppercase transition-all"
-          >
-            About Us
-          </button>
-          <button 
-            type="button"
             onClick={() => onNavigate('courses')}
             className="px-3 py-1.5 text-xs text-brand-dark/80 hover:text-brand-primary hover:border-b hover:border-brand-primary font-semibold tracking-wider uppercase transition-all"
           >
